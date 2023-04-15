@@ -1,3 +1,6 @@
 [submodule "gateway"]
 	path = gateway
 	url = git@github.com:X0GT0X/neuron-gateway.git
+[submodule "merchants"]
+	path = merchants
+	url = git@github.com:X0GT0X/neuron-merchants.git
