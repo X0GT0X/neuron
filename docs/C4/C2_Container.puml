@@ -1,0 +1,34 @@
+@startuml C2 Container
+!pragma layout smetana
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+
+Person(merchant, "Merchant", "Uses Neuron to allow payments")
+Person(client, "Client", "Pays for goods/services")
+
+System_Boundary(neuron, "Neuron") {
+    Container(gateway, "Gateway", "PHP", "Neuron's gateway")
+    Container(merchants, "Merchants", "PHP", "Microservice for managing merchants")
+    Container(banks, "Banks", "PHP", "Microservice for managing supported banks")
+    Container(notifications, "Notifications", "PHP", "Microservice for sending notifications to merchants")
+    Container(frontend, "Frontend", "Not implemented")
+}
+System_Ext(tpp, "TPP", "Third-party payment provider")
+System_Ext(bank, "Bank", "Client's bank")
+System_Ext(merchantService, "Merchant's service")
+
+Rel(merchant, merchants, "Registers in")
+Rel(merchant, notifications, "Sets up notification settings in")
+Rel(client, frontend, "Uses to pay")
+Rel(gateway, tpp, "Delegates the payment to")
+Rel(gateway, banks, "Gets data from")
+Rel(gateway, merchants, "Gets data from")
+Rel(gateway, notifications, "Delegates sending notifications to")
+Rel(tpp, bank, "Integrates with")
+Rel(client, bank, "Has account in")
+Rel(client, merchantService, "Buys goods/services at")
+Rel(merchantService, gateway, "Integrates with")
+
+LAYOUT_WITH_LEGEND()
+@enduml
