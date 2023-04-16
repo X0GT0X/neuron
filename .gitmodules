@@ -4,3 +4,6 @@
 [submodule "merchants"]
 	path = merchants
 	url = git@github.com:X0GT0X/neuron-merchants.git
+[submodule "notifications"]
+	path = notifications
+	url = git@github.com:X0GT0X/neuron-notifications.git
