@@ -1,0 +1,18 @@
+http:
+  routers:
+    proxy:
+      rule: "Host(`proxy.neuron.localhost`)"
+      service: "api@internal"
+      tls:
+        domains:
+          - main: "neuron.localhost"
+            sans:
+              - "*.neuron.localhost"
+          - main: "neuron.local"
+            sans:
+              - "*.neuron.local"
+
+tls:
+  certificates:
+    - certFile: "/etc/certs/local-cert.pem"
+      keyFile: "/etc/certs/local-key.pem"

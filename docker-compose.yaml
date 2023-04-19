@@ -2,6 +2,7 @@ version: "3.4"
 
 services:
   database:
+    container_name: neuron-database
     image: postgres:${POSTGRES_VERSION:-15}-alpine
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-app}
@@ -14,13 +15,41 @@ services:
       - neuron
 
   rabbit:
+    container_name: neuron-rabbit
     image: rabbitmq:3.11-management-alpine
     ports:
       - "5672:5672"
-      - "15672:15672"
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq/
       - .docker/rabbitmq/logs/:/var/log/rabbitmq/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.rabbit.rule=Host(`rabbit.neuron.localhost`)"
+      - "traefik.http.routers.rabbit.tls=true"
+      - "traefik.http.routers.rabbit.entrypoints=http,https"
+      - "traefik.http.services.rabbit.loadbalancer.server.port=15672"
+    networks:
+      - neuron
+
+  proxy:
+    container_name: neuron-proxy
+    image: traefik:v2.9
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.http.address=:80"
+      - "--entrypoints.https.address=:443"
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - .docker/proxy/config/static.yaml:/etc/traefik/traefik.yaml:ro
+      - .docker/proxy/config/dynamic.yaml:/etc/traefik/dynamic.yaml:ro
+      - .docker/proxy/certs:/etc/certs:ro
     networks:
       - neuron
 

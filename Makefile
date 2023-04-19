@@ -19,3 +19,23 @@ down: ## Stop the docker hub
 
 logs: ## Show live logs
 	@$(DOCKER_COMP) logs --tail=0 --follow
+
+ssl-certs:
+	mkcert -cert-file .docker/proxy/certs/local-cert.pem -key-file .docker/proxy/certs/local-key.pem "neuron.localhost" "*.neuron.localhost" "neuron.local" "*.neuron.local"
+
+init:
+	@$(DOCKER_COMP) build --pull --no-cache
+	cd gateway && make build && cd ..
+	cd merchants && make build && cd ..
+	cd notifications && make build && cd ..
+
+start: up gateway-up merchants-up notifications-up
+
+gateway-up:
+	cd gateway && make up && cd ..
+
+merchants-up:
+	cd merchants && make up && cd ..
+
+notifications-up:
+	cd notifications && make up && cd ..
