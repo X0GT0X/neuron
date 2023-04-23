@@ -9,6 +9,7 @@
 ## Requirements
 1. Install [Docker](https://docker.com/) and [docker-compose](https://docs.docker.com/compose/install/)
 2. Install [mkcert](https://github.com/FiloSottile/mkcert) for creating trusted ssh certificates locally.
+3. Run `git submodule update --init --recursive` to fetch all microservices.
 
 ## How to run locally
 1. Run `mkcert -install` if you didn't have mkcert tool before.
