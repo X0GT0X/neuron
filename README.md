@@ -18,8 +18,5 @@
 4. Run `make start` to start all microservices.
 
 ## Available hosts (dev)
-- [Gateway - https://gateway.neuron.localhost/](https://gateway.neuron.localhost/)
-- [Merchants - https://merchants.neuron.localhost/](https://merchants.neuron.localhost/)
-- [Notifications - https://notifications.neuron.localhost/](https://notifications.neuron.localhost/)
 - [RabbitMQ Dashboard - https://rabbit.neuron.localhost/](https://rabbit.neuron.localhost/)
 - [Proxy Dashboard - https://proxy.neuron.localhost/](https://proxy.neuron.localhost/)
