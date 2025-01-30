@@ -1,0 +1,25 @@
+meta {
+  name: Add New Product
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{catalogApi}}/products?XDEBUG_SESSION=PHPSTORM
+  body: json
+  auth: none
+}
+
+params:query {
+  XDEBUG_SESSION: PHPSTORM
+}
+
+body:json {
+  {
+    "name": "Wood Table",
+    "description": "Simple wood table",
+    "sku": "WOO/TAB",
+    "priceAmount": 2500,
+    "priceCurrency": "USD"
+  }
+}
